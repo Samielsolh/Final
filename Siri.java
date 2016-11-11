@@ -1,3 +1,11 @@
+// Note to User: you can freely ask any question as long as you do not spell
+//any words wrong. Cap locks and other small words (e.g in or what) are
+//accounted for
+
+//Have Fun!
+
+//Siri 2.0, Sami El Solh and Kai Marcos
+
 import java.io.*; //package for system input and output. includes the File class
 import java.util.Scanner;
 import java.util.Random;
@@ -6,22 +14,21 @@ import java.awt.Color;
 import java.awt.Container;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-//problem: when I enter superbowl, it will repeat the previous print option x times
-//where x is length of new scanner statement
+
 
 public class Siri extends JPanel{
 
-  public static boolean exit = false;
-  public static boolean check = false;
-  public static String word = "Null... for now at least";
-  public static boolean error = true;
-  public static String twoWordTest = "Null";
-  public static String printWord = "Null";
 
+  public static boolean exit = false; //field to allow the user to exit the program
+  public static boolean check = false; //used to check if there is an error or not
+  public static String word = "Null... for now at least"; // empty to avoid a null error
+  public static int error = 0; //used to avoid error
+  public static String twoWordTest = "Null"; // used to find phrases, not single words
+  public static String printWord = "Null"; // word that is tested in Morpher
 
+  public static JFrame openWindow; //variable to open/close window after each command
 
-
-
+  //will change each word to lower case and test if it sets off a key word
   public static boolean Morpher(String keyWord){
     if(keyWord.equals(word) == false){
 
@@ -47,43 +54,51 @@ public class Siri extends JPanel{
 
   // will identify what the user is saying
   public static void Identify(String line){
-    if(line.equals("h"))
-      Help();
-    else if(Morpher("exit"))
-      exit = true;
-    else if(line.equals("error"))
-      Error();
 
-<<<<<<< HEAD
+    if(line.equals("h")){
+      Help();
+      error = 1;
+    }
+    else if(Morpher("exit")){
+      exit = true;
+      error = 1;
+    }
     else if(Morpher("superbowl")){
-      printWord = "Sami >>>" + "The Broncos won the Superbowl";
-=======
-    else if(Morpher("superbowl"))
       printWord = "The Broncos won the Superbowl";
->>>>>>> origin/master
+      error = 1;
+    }
+    else if(Morpher("capital")){
+      printWord = "Washington D.C";
+      error = 1;
+    }
     else if(Morpher("presidency")|| Morpher("president")){
-      if (twoWordTest.indexOf(" is ")!=-1 && twoWordTest.indexOf(" is going to be")==-1)
+      if (twoWordTest.indexOf(" is ")!=-1 && twoWordTest.indexOf(" is going to be")==-1){
         printWord = "Barack Obama";
-      else
+        error = 1;
+      }
+      else{
       printWord = "Donald Trump...";
+      error = 1;
+      }
     }
 
     else if(Morpher("world")){
       if(twoWordTest.indexOf("cup")!=-1 || twoWordTest.indexOf("Cup")!=-1){
         printWord = "Germany";
+        error = 1;
       }
       else if(twoWordTest.indexOf("series")!=-1 || twoWordTest.indexOf("series")!=-1){
         printWord = "Patriots";
+        error = 1;
       }
-      else
-        Error();
-    }
-  }
 
+    }
+
+  }
 
   // lists some possible questions the user might ask
   public static void Help(){
-    System.out.println("List of Commands (you do not have to type it in exactly): \n What is the Date? \n Draw a rectangle \n How are you? \n Who won the superbowl? \n Who won the presidency?");
+    System.out.println("Ask Siri about: \n Our President \n Who will be President \n Who won the superbowl \n What's the capital of the US \n Who won the World Cup \n Who won the World Series");
   }
 
   // chooses a random response to avoid Siri being repetitive
@@ -98,39 +113,40 @@ public class Siri extends JPanel{
     int n = Random(3); // chooses a random response to avoid Siri being repetitive
 
     if(n==1)
-      printWord = "Whats that again ?";
+      System.out.println("Whats that again ?");
     else if(n==2)
-      printWord = ", I'm not sure I understand";
-    else if(n==3)
-      printWord = "Sorry, I don't know the answer to that one";
+      System.out.println("Sorry, I'm not sure I understand");
+    else
+      System.out.println("Sorry, I don't know the answer to that one");
 
   }
 
-  public void paintComponent1(Graphics g){
+  // paints the rectangle and text
+  public void paintComponent(Graphics g){
+    super.paintComponent(g);  // Call JPanel's paintComponent method
+                              //  to paint the background
+    g.setColor(Color.RED);
 
-      super.paintComponent(g);
-      g.setColor(Color.BLUE);
-      g.drawRect(20, 40, 150, 45);
-      g.setColor(Color.WHITE);
-      g.drawString(printWord, 55, 65);
+    // Draw a 150 by 45 rectangle with the upper-left
+    // corner at x = 20, y = 40:
+    g.drawRect(20, 40, (printWord.length()*11+100), 45);
 
+    g.setColor(Color.BLUE);
+
+    // Draw a string of text starting at x = 55, y = 65:
+    g.drawString(printWord, 55, 65);
   }
+
+
   //prompts the user and initiates methods
-
   public static void main( String args[] ) {
 
     Scanner userPrompt = new Scanner(System.in);
     Greetings();
 
-    JFrame window = new JFrame("Siri");
-    window.setBounds(300, 300, 200, 150);
-    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    Graphics panel = new Graphics();
-    panel.setBackground(Color.WHITE);
-    Container c = window.getContentPane();
-    c.add(panel);
-    window.setVisible(true);
-    repaint();
+    openWindow = null;
+
+
 
     while(exit == false){
       String line;
@@ -168,14 +184,30 @@ public class Siri extends JPanel{
           //System.out.println(word);
         Identify(word);
       }
-        if(Morpher(word)==true){
-          error=false;
-          }
+
+
         }
 
-      if(error==true){
-        Identify("error");
+      if (openWindow != null) {  //closes window
+        openWindow.setVisible(false);
+        openWindow.dispose();
+      }
 
+      JFrame window = new JFrame("Siri 2.0");  //creates window
+      // Set this window's location and size:
+      // upper-left corner at 300, 300; width 200, height 150
+      window.setBounds(600, 100, 500, 150);
+      window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      Siri panel = new Siri();
+      panel.setBackground(Color.WHITE);  // the default color is light gray
+      Container c = window.getContentPane();
+      c.add(panel);
+      window.setVisible(true);
+
+      openWindow = window;
+
+      if(error!=1){
+        Error();
       }
     }
   }
