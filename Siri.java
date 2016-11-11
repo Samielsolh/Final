@@ -11,6 +11,9 @@ public class Siri{
   public static String word = "Null... for now at least";
   public static boolean error = true;
   public static String twoWordTest = "Null";
+  public static String printWord = "Null";
+
+
 
 
 
@@ -46,27 +49,27 @@ public class Siri{
     else if(line.equals("error"))
       Error();
 
-    else if(Morpher("superbowl"))
-      System.out.println("The cubs won it");
-
+    else if(Morpher("superbowl")){
+      printWord = "The Broncos won the Superbowl";
     else if(Morpher("presidency")|| Morpher("president")){
       if (twoWordTest.indexOf(" is ")!=-1 && twoWordTest.indexOf(" is going to be")==-1)
-        System.out.println("Barack Obama");
+        printWord = "Barack Obama";
       else
-        System.out.println("Donald Trump");
+      printWord = "Donald Trump...";
     }
 
     else if(Morpher("world")){
       if(twoWordTest.indexOf("cup")!=-1 || twoWordTest.indexOf("Cup")!=-1){
-        System.out.println("Germany");
+        printWord = "Germany";
       }
       else if(twoWordTest.indexOf("series")!=-1 || twoWordTest.indexOf("series")!=-1){
-        System.out.println("Patriots");
+        printWord = "Patriots";
       }
       else
         Error();
     }
   }
+
 
   // lists some possible questions the user might ask
   public static void Help(){
@@ -85,16 +88,25 @@ public class Siri{
     int n = Random(3); // chooses a random response to avoid Siri being repetitive
 
     if(n==1)
-    System.out.println("What's that again ?");
+      printWord = "Whats that again ?";
     else if(n==2)
-      System.out.println(", I'm not sure I understand");
+      printWord = name + ", I'm not sure I understand");
     else if(n==3)
       System.out.println("Sorry, I don't know the answer to that one");
 
   }
 
+  public void paintComponent1(Graphics g){
 
+      super.paintComponent(g);
+      g.setColor(Color.BLUE);
+      g.drawRect(20, 40, 150, 45);
+      g.setColor(Color.WHITE);
+      g.drawString(printWord, 55, 65);
+
+  }
   //prompts the user and initiates methods
+
   public static void main( String args[] ) {
 
     Scanner userPrompt = new Scanner(System.in);
@@ -147,4 +159,4 @@ public class Siri{
     }
   }
 
-}
+  }
