@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 //problem: when I enter superbowl, it will repeat the previous print option x times
 //where x is length of new scanner statement
 
-public class Siri{
+public class Siri extends JPanel{
 
   public static boolean exit = false;
   public static boolean check = false;
@@ -116,7 +116,7 @@ public class Siri{
 
     Scanner userPrompt = new Scanner(System.in);
     Greetings();
-    
+
     JFrame window = new JFrame("Siri");
     window.setBounds(300, 300, 200, 150);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -125,6 +125,7 @@ public class Siri{
     Container c = window.getContentPane();
     c.add(panel);
     window.setVisible(true);
+    repaint();
 
     while(exit == false){
       String line;
