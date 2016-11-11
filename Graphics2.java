@@ -71,19 +71,14 @@ public class Graphics extends JPanel
   }
   public static void main(String[] args)
   {
-    int i = 0;
-    while(int i < 20){
 
     JFrame window = new JFrame("Siri");
-
     window.setBounds(300, 300, 200, 150);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     Graphics panel = new Graphics();
     panel.setBackground(Color.WHITE);
     Container c = window.getContentPane();
     c.add(panel);
-
     window.setVisible(true);
   }
 }

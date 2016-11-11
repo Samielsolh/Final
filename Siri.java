@@ -1,6 +1,11 @@
 import java.io.*; //package for system input and output. includes the File class
 import java.util.Scanner;
 import java.util.Random;
+import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Container;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 //problem: when I enter superbowl, it will repeat the previous print option x times
 //where x is length of new scanner statement
 
@@ -49,7 +54,7 @@ public class Siri{
     else if(line.equals("error"))
       Error();
 
-    else if(Morpher("superbowl")){
+    else if(Morpher("superbowl"))
       printWord = "The Broncos won the Superbowl";
     else if(Morpher("presidency")|| Morpher("president")){
       if (twoWordTest.indexOf(" is ")!=-1 && twoWordTest.indexOf(" is going to be")==-1)
@@ -90,9 +95,9 @@ public class Siri{
     if(n==1)
       printWord = "Whats that again ?";
     else if(n==2)
-      printWord = name + ", I'm not sure I understand");
+      printWord = ", I'm not sure I understand";
     else if(n==3)
-      System.out.println("Sorry, I don't know the answer to that one");
+      printWord = "Sorry, I don't know the answer to that one";
 
   }
 
@@ -111,6 +116,16 @@ public class Siri{
 
     Scanner userPrompt = new Scanner(System.in);
     Greetings();
+    
+    JFrame window = new JFrame("Siri");
+    window.setBounds(300, 300, 200, 150);
+    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    Graphics panel = new Graphics();
+    panel.setBackground(Color.WHITE);
+    Container c = window.getContentPane();
+    c.add(panel);
+    window.setVisible(true);
+
     while(exit == false){
       String line;
       System.out.println("ask me a question :) (for help enter 'h')  "); //kai
