@@ -50,7 +50,7 @@ public class Siri{
       Error();
 
     else if(Morpher("superbowl")){
-      printWord = "The Broncos won the Superbowl";
+      printWord = "Sami >>>" + "The Broncos won the Superbowl";
     else if(Morpher("presidency")|| Morpher("president")){
       if (twoWordTest.indexOf(" is ")!=-1 && twoWordTest.indexOf(" is going to be")==-1)
         printWord = "Barack Obama";
